@@ -9,8 +9,16 @@ class MahasiswaController extends Controller
     //show data mahasiswa
     public function index()
     {
-        $data_mahasiswa = \App\Models\Mahasiswa::all();
+        //pagination
+        //searching
+        if(request()->has('search')){
+            //searching data mahasiswa prodi
+            $data_mahasiswa = \App\Models\Mahasiswa::where('nama', 'LIKE', '%'.request('search').'%')->paginate(10);
+        }else{
+            $data_mahasiswa = \App\Models\Mahasiswa::paginate(20);
+        }
         return view('mahasiswa.index', ['mahasiswa' => $data_mahasiswa]);
+
     }
     //create data mahasiswa
 
